@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Heading, Text, Box, Flex, Button, Textarea, FormControl, FormLabel, Input, Select, Radio, RadioGroup, Stack, Spinner } from "@chakra-ui/react";
+import { Heading, Text, Box, Flex, Button, Textarea, FormControl, FormLabel, Input, Select, Radio, RadioGroup, Stack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper} from "@chakra-ui/react";
 import grammarOptions from '../data/grammarOptions';
 import { getGrammarGapFill } from "../api/getGrammarGapFill";
 import { SSE } from "sse";
@@ -13,6 +13,7 @@ function App() {
   const [exerciseType, setExerciseType] = useState("");
   const [grammar, setGrammar] = useState("");
   const [topic, setTopic] = useState("");
+  const [numQuestions, setNumQuestions] = useState(1);
 
   const resultRef = useRef();
   useEffect(() => {
@@ -28,6 +29,7 @@ function App() {
       exerciseType: exerciseType,
       topic: topic,
       grammar: grammar,
+      numQuestions: numQuestions,
     };
 
     // TODO select the right kind of exercise
@@ -35,6 +37,7 @@ function App() {
       setResult(results);
       setIsLoading(false);
     });
+
 
   };
 
@@ -45,28 +48,19 @@ function App() {
 
 
   return (
-    <Flex
-      width={"100vw"}
-      height={"100vh"}
-      alignContent={"center"}
-      justifyContent={"center"}
-      backgroundColor="#F0F8FF"
-    >
-      <Box maxW="2xl" m="0 auto" p="20px">
-        <Heading
-          as="h1"
-          textAlign="center"
-          fontSize="5xl"
-          mt="100px"
-          color="orange.500"
-        >
-          TEFL Exercise Generator
-        </Heading>
-        <Heading as="h2" textAlign="center" fontSize="3xl" mt="20px" color="blue.500">
-          Infinite TEFL exercises!
-        </Heading>
+    <Box>
+      <Heading
+        as="h1"
+        textAlign="center"
+        fontSize="5xl"
+        mt="100px"
+        color="orange.500"
+      >
+        TEFL Exercise Generator
+      </Heading>
 
-        <Box p={5}>
+      <Flex>
+        <Box w="25%" p={4}>
           <form onSubmit={handleSubmitButtonClicked}>
             <Stack spacing={5}>
 
@@ -105,40 +99,55 @@ function App() {
                   ))}
                 </Select>
               </FormControl>
+
+              <FormControl mt={4}>
+              <FormLabel fontSize="lg" fontWeight="bold">How many questions (max 10)?</FormLabel>
+                <NumberInput min={1} max={10} defaultValue={1} onChange={(e) => setNumQuestions(e)}>
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+
             </Stack>
           </form>
+
+          <Button
+            colorScheme="teal"
+            size="lg"
+            mt="30px"
+            ml="20px"
+            onClick={handleSubmitButtonClicked}
+            isLoading={isLoading}
+            loadingText="Generating Exercise"
+          >
+            Submit
+          </Button>
+
+          <Button
+            colorScheme="teal"
+            size="lg"
+            mt="30px"
+            ml="20px"
+            onClick={handleClearButtonClicked}
+          >
+            Clear
+          </Button>
+
         </Box>
 
-        <Button
-          colorScheme="teal"
-          size="lg"
-          mt="30px"
-          ml="20px"
-          onClick={handleSubmitButtonClicked}
-          isLoading={isLoading} 
-          loadingText="Generating Exercise"
-        >
-          Submit
-        </Button>
-        <Button
-          colorScheme="teal"
-          size="lg"
-          mt="30px"
-          ml="20px"
-          onClick={handleClearButtonClicked}
-        >
-          Clear
-        </Button>
-        <Box maxW="4xl" m="0 auto" style={{ whiteSpace: 'pre-wrap' }}>
-          <Heading as="h5" textAlign="left" fontSize="lg" mt="40px">
-            Result:
-          </Heading>
-          <Box border="1px" borderColor="gray.200" borderRadius="md" p={1}>
-            <Text fontSize="lg" textAlign="left" mt="20px">{result}</Text>
+        <Box w="75%" border="1px" borderColor="gray.200" p={4}>
+
+          <Box p={1}>
+            <Text fontSize="lg" textAlign="left" mt="10px">{result}</Text>
           </Box>
+
         </Box>
-      </Box>
-    </Flex >
+      </Flex>
+    </Box>
+
   );
 }
 

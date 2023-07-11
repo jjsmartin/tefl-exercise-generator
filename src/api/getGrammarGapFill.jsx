@@ -51,9 +51,12 @@ export async function getGrammarGapFill(data) {
   Then generate an explanation of why the correct option is correct and why the incorrect options are incorrect.
   You should choose the sentence, the part to make blank and the incorrect options in a way that will help a student understand the target grammar as clearly as possible.
   {format_instructions}
+
+  Return {numQuestions} different gap fill exercises in this format, in a JSON array.
   Do not return anything else but data in this format. Do not say "Here is the data you requested" or anything like that. Just return exactly what was specified and nothing else.
   `
-
+  console.log("--------------------------")
+  console.log(data);
   
 
   const parser = StructuredOutputParser.fromZodSchema(
@@ -85,7 +88,7 @@ export async function getGrammarGapFill(data) {
 
   const prompt_template = new PromptTemplate({
     template: grammar_gap_fill_template,
-    inputVariables: ["level", "topic", "grammar"],
+    inputVariables: ["level", "topic", "grammar", "numQuestions"],
     partialVariables: { format_instructions: formatInstructions },
   });
   //console.log(prompt_template);
@@ -94,6 +97,7 @@ export async function getGrammarGapFill(data) {
     level: data.level,
     topic: data.topic,
     grammar: data.grammar,
+    numQuestions: data.numQuestions,
     formatInstructions: formatInstructions,
   });
   console.log(prompt);
