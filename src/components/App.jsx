@@ -44,6 +44,7 @@ function App() {
   let handleClearButtonClicked = () => {
     setPrompt("");
     setResult("");
+    setIsLoading(false);
   };
 
 
@@ -141,7 +142,7 @@ function App() {
         <Box w="75%" border="1px" borderColor="gray.200" p={4}>
 
           <Box p={1}>
-            <Text fontSize="lg" textAlign="left" mt="10px">{result}</Text>
+            <Textarea fontSize="lg" textAlign="left" mt="10px">{result}</Textarea>
           </Box>
 
         </Box>
