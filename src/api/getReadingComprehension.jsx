@@ -16,7 +16,7 @@ export async function getReadingComprehension(data) {
 
   //TODO the response is currently a bit off: typically doesn't illustrate the target grammar very well
   const reading_comprehension_template = `
-  Generate a short passage of around 500 words at a {level} level of English that illustrates this grammatical construction: {grammar}, and relates to this topic: {topic}.
+  Generate a short passage of around 500 words at a {level} level of English that uses (but does not explicitly talk about) this grammatical construction: {grammar}, and relates to this topic: {topic}. The passage should not explictly discuss grammar -- it should be the sort of thing someone might read in a newspaper or magazine.
   We will use this passage as the basis for a reading comprehension exercise. The student will read the passage and then answer some questions about it. 
   Provide {numQuestions} questions about the passage in the format described below. These should require the student to understand the target grammar and/or the vocabulary related to the topic in order to answer them correctly.
   Also provide the answers to these questions.

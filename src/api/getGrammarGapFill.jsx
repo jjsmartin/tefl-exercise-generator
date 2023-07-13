@@ -29,12 +29,11 @@ export async function getGrammarGapFill(data) {
   `
   
   const questionSchema = z.object({
-    sentence: z.string().describe("A grammatical English sentence of no less than 20 words that illustrates the target grammar. It should help the student understand the target grammar. There should be no blank space in this sentence. It should be a complete sentence."),
-    question: z.string().describe("The sentence referred to above, but with the target grammar removed and replaced with a blank space"),
-    correct: z.string().describe("The correct option to fill the blank space; this would turn the question above back into the exact original sentence above"),
-    incorrect: z.array(z.string()).describe("Three grammatically incorrect options. You will be assessed on how plausible these options are, so they should be similar to the correct option in some way. But they absolutely must be be bad grammar in this context."),
-    explanation: z.string().describe("An explanation of why the correct explanation is correct and why the incorrect options are incorrect. This explanation must itself be factually correct."),
-    evaluation: z.string().describe("Tell me if you think this question will help a student of English to understand the target grammar. Explicitly say if it is good or bad. Please explain why.")
+    sentence: z.string().describe("The original sentence, with no blanks."),
+    question: z.string().describe("The sentence the student will see, with a blank space"),
+    correct: z.string().describe("The correct option."),
+    incorrect: z.array(z.string()).describe("Three incorrect options."),
+    explanation: z.string().describe("An explanation the correct and incorrect options."),
   })
 
   const questionArraySchema = z.array(questionSchema).describe("An array of questions, each in the format described above.")

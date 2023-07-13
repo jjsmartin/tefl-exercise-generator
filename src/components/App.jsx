@@ -63,119 +63,120 @@ function App() {
   };
 
 
-let handleClearButtonClicked = () => {
-  setPrompt("");
-  setResult("");
-  setIsLoading(false);
-};
+  let handleClearButtonClicked = () => {
+    setPrompt("");
+    setResult("");
+    setIsLoading(false);
+  };
 
 
-return (
-  <Box>
-    <Heading
-      as="h1"
-      textAlign="center"
-      fontSize="5xl"
-      mt="50px"
-      mb="50px"
-      color="orange.500"
-    >
-      TEFL Exercise Generator
-    </Heading>
+  return (
+    <Box>
+      <Heading
+        as="h1"
+        textAlign="center"
+        fontSize="5xl"
+        mt="50px"
+        mb="50px"
+        color="orange.500"
+      >
+        TEFL Exercise Generator
+      </Heading>
 
-    <Flex>
-      <Box w="25%" h="100%" p={4}>
-        <form onSubmit={handleSubmitButtonClicked}>
-          <Stack spacing={5}>
+      <Flex>
+        <Box w="25%" h="100%" p={4}>
+          <form onSubmit={handleSubmitButtonClicked}>
+            <Stack spacing={5}>
 
-            <FormControl mt={5}>
-              <FormLabel fontSize="lg" fontWeight="bold">What level of English?</FormLabel>
-              <RadioGroup onChange={setLevel} value={level}>
-                <Stack direction='row'>
-                  <Radio value='beginner'>Beginner</Radio>
-                  <Radio value='intermediate'>Intermediate</Radio>
-                  <Radio value='advanced'>Advanced</Radio>
-                </Stack>
-              </RadioGroup>
-            </FormControl>
+              <FormControl mt={5}>
+                <FormLabel fontSize="lg" fontWeight="bold">What level of English?</FormLabel>
+                <RadioGroup onChange={setLevel} value={level}>
+                  <Stack direction='row'>
+                    <Radio value='beginner'>Beginner</Radio>
+                    <Radio value='intermediate'>Intermediate</Radio>
+                    <Radio value='advanced'>Advanced</Radio>
+                  </Stack>
+                </RadioGroup>
+              </FormControl>
 
-            <FormControl mt={5}>
-              <FormLabel fontSize="lg" fontWeight="bold">What sort of Exercise?</FormLabel>
-              <Select placeholder="Select option" onChange={e => setExerciseType(e.target.value)} size="lg">
-                <option value="grammar gap-fill">Grammar Gap-fill</option>
-                <option value="vocab gap-fill">Vocab Gap-fill</option>
-                <option value="reading comprehension">Reading Comprehension</option>
-              </Select>
-            </FormControl>
+              <FormControl mt={5}>
+                <FormLabel fontSize="lg" fontWeight="bold">What sort of Exercise?</FormLabel>
+                <Select placeholder="Select option" onChange={e => setExerciseType(e.target.value)} size="lg">
+                  <option value="grammar gap-fill">Grammar Gap-fill</option>
+                  <option value="vocab gap-fill">Vocab Gap-fill</option>
+                  <option value="reading comprehension">Reading Comprehension</option>
+                </Select>
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel fontSize="lg" fontWeight="bold" >What sort of topic?</FormLabel>
-              <Input type="text" placeholder="Select option" autoComplete="off" value={topic} onChange={(e) => setTopic(e.target.value)} />
-            </FormControl>
+              <FormControl mt={4}>
+                <FormLabel fontSize="lg" fontWeight="bold" >What sort of topic?</FormLabel>
+                <Input type="text" placeholder="Select option" autoComplete="off" value={topic} onChange={(e) => setTopic(e.target.value)} />
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel fontSize="lg" fontWeight="bold">What kind of grammar?</FormLabel>
-              <Select placeholder="Select option?" onChange={(e) => setGrammar(e.target.value)}>
-                {grammarOptions.map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+              <FormControl mt={4}>
+                <FormLabel fontSize="lg" fontWeight="bold">What kind of grammar?</FormLabel>
+                <Select placeholder="Select option?" onChange={(e) => setGrammar(e.target.value)}>
+                  {grammarOptions.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel fontSize="lg" fontWeight="bold">How many questions (max 10)?</FormLabel>
-              <NumberInput min={1} max={10} defaultValue={1} onChange={(e) => setNumQuestions(e)}>
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
+              <FormControl mt={4}>
+                <FormLabel fontSize="lg" fontWeight="bold">How many questions (max 10)?</FormLabel>
+                <NumberInput min={1} max={10} defaultValue={1} onChange={(e) => setNumQuestions(e)}>
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
 
-          </Stack>
-        </form>
+            </Stack>
+          </form>
 
-        <Button
-          colorScheme="teal"
-          size="lg"
-          mt="30px"
-          ml="20px"
-          onClick={handleSubmitButtonClicked}
-          isLoading={isLoading}
-          loadingText="Generating Exercise"
-        >
-          Submit
-        </Button>
+          <Button
+            colorScheme="teal"
+            size="lg"
+            mt="30px"
+            ml="20px"
+            onClick={handleSubmitButtonClicked}
+            isLoading={isLoading}
+            loadingText="Generating Exercise"
+          >
+            Submit
+          </Button>
 
-        <Button
-          colorScheme="teal"
-          size="lg"
-          mt="30px"
-          ml="20px"
-          onClick={handleClearButtonClicked}
-        >
-          Clear
-        </Button>
+          <Button
+            colorScheme="teal"
+            size="lg"
+            mt="30px"
+            ml="20px"
+            onClick={handleClearButtonClicked}
+          >
+            Clear
+          </Button>
 
-      </Box>
-
-      <Box w="75%" border="1px" borderColor="gray.200" p={4}>
-
-        <Box p={1}>
-          <Textarea value={result} height="1200px" fontSize="lg" textAlign="left" mt="10px" isReadOnly={true} />
         </Box>
 
-      </Box>
-    </Flex>
-  </Box>
+        <Box w="75%" border="1px" borderColor="gray.200" p={4}>
 
-);
-  }
+          <Box p={1}>
+            <Textarea value={result} height="1200px" fontSize="lg" textAlign="left" mt="10px" isReadOnly={true} />
+          </Box>
+
+        </Box>
+      </Flex>
+    </Box>
+
+  );
+}
 
 export default App;
 
-
-
+// TODO the prompts are all pretty inconsistent. Go back to LLM api vs chat api?
+// TODO different exercise types use different input variables (e.g. grammar vs vocab gap-fill). How do I handle this?
+// TODO figure out what to do with the API key when deploying to production

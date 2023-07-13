@@ -40,7 +40,7 @@ export function formatGapFillQuestions(jsonString) {
 
     let output = "";
   
-    output += "Passage:\n\n" + data.passage + "\n\n";
+    output += data.passage + "\n\n";
   
     output += "Questions:\n";
     data.questions.forEach((question, index) => {
