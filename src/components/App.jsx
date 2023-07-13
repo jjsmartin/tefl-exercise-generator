@@ -76,7 +76,8 @@ return (
       as="h1"
       textAlign="center"
       fontSize="5xl"
-      mt="100px"
+      mt="50px"
+      mb="50px"
       color="orange.500"
     >
       TEFL Exercise Generator
