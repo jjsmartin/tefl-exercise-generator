@@ -31,26 +31,3 @@ export function formatGapFillQuestions(jsonString) {
   
     return output;
   }
-
-
-
-  export function formatReadingComprehension(jsonString) {
-
-    let data = JSON.parse(jsonString);
-
-    let output = "";
-  
-    output += data.passage + "\n\n";
-  
-    output += "Questions:\n";
-    data.questions.forEach((question, index) => {
-      output += (index + 1) + ". " + question + "\n";
-    });
-  
-    output += "\nAnswers:\n";
-    data.answers.forEach((answer, index) => {
-      output += (index + 1) + ". " + answer + "\n";
-    });
-  
-    return output;
-  }

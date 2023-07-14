@@ -16,20 +16,21 @@ export async function getGrammarGapFill(data) {
 
   //TODO these questions types are not being generated correctly: adverbials, uncount nouns. Are gap-fill questions the right format for these?
   const grammar_gap_fill_template = `
-  Generate a sentence of around 20 words that relates to this topic:
-  "{topic}"
-  and includes this grammatical construction: 
+  Generate a sentence of around 20 words that includes this grammatical construction: 
   "{grammar}".
-  We will call this the "target grammar".
-  The sentence should absolutely not explicitly mention the target grammar.
+  We will call this the "target grammar". This is the most important thing. But the sentence should absolutely not explicitly mention the target grammar.
+  Instead, the sentence should relate to this topic:
+  "{topic}"
   A "gap fill exercise" is one in which certain words or phrases are removed from a sentence and replaced with blanks. Someone studying English as a foreign language might be asked to fill in the blanks with the correct words or phrases.
   We will use the sentence you just generated as the template for a gap fill exercise. 
   Consider what a student of English as a foreign language might get wrong about the target grammar, and replace the relevant part of the sentence with a single blank space.
   The original sentence and the sentence with blank should be exactly the same except for this blank space.
+  Then generate the correct option to fill the gap. This should be a word or phrase which, if it were used to fill in the blank, would give back the original sentence.
+  This student should have to understand the target grammar in order to choose the correct option.
   Then generate three incorrect options to fill the gap. These three options should be words which, if they were used to fill in the blank, would give grammatically incorrect versions of the same sentence.
   Then generate an explanation of why the correct option is correct. You should also go through each incorrect option and explain why it is grammatically incorrect.
   You should choose the sentence, the part to make blank and the incorrect options in a way that will help a student understand the target grammar as clearly as possible.
-  You should return {numQuestions} different gap fill exercises in the format described below.
+  You should return {numQuestions} different gap fill exercises in the format described below. Do not use the same correct option more than once.
   {format_instructions}
   `
   
