@@ -1,17 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { Heading, Text, Box, Flex, Button, Textarea, FormControl, FormLabel, Input, Select, Radio, RadioGroup, Stack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react";
+import { Heading, Box, Flex, Button, Textarea, FormControl, FormLabel, Input, Select, Radio, RadioGroup, Stack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react";
 import grammarOptions from '../data/grammarOptions';
 import { getGrammarGapFill } from "../api/getGrammarGapFill";
-import { getVocabGapFill } from "../api/getVocabGapFill";
-import { getReadingComprehension } from "../api/getReadingComprehension";
 
 function App() {
 
   let [prompt, setPrompt] = useState("");
   let [isLoading, setIsLoading] = useState(false);
   let [result, setResult] = useState("");
-  const [level, setLevel] = useState('beginner')
-  const [exerciseType, setExerciseType] = useState("");
   const [grammar, setGrammar] = useState("");
   const [topic, setTopic] = useState("");
   const [numQuestions, setNumQuestions] = useState(1);
@@ -24,17 +20,10 @@ function App() {
   const handleSubmitButtonClicked = (e) => {
 
     e.preventDefault();
-    // if (!exerciseType) {
-    //   alert('Please choose an exercise type before submitting.');
-    //   return;
-    // }
-
     setIsLoading(true);
     setResult("");
 
     const formData = {
-      level: level,
-      exerciseType: exerciseType,
       topic: topic,
       grammar: grammar,
       numQuestions: numQuestions,
@@ -42,33 +31,17 @@ function App() {
 
     console.log(formData);
 
-    if (formData.exerciseType === "grammar gap-fill") {
-
-      getGrammarGapFill(formData).then(results => {
-        setResult(results);
-        setIsLoading(false);
-      })
-    } else if (formData.exerciseType === "vocab gap-fill") {
-      getVocabGapFill(formData).then(results => {
-        setResult(results);
-        setIsLoading(false);
-      })
-    } else if (formData.exerciseType === "reading comprehension") {
-      getReadingComprehension(formData).then(results => {
-        setResult(results);
-        setIsLoading(false);
-      })
-    } else
-      console.log("Error: exercise type not recognized");
+    getGrammarGapFill(formData).then(results => {
+      setResult(results);
+      setIsLoading(false);
+    })
   };
-
 
   let handleClearButtonClicked = () => {
     setPrompt("");
     setResult("");
     setIsLoading(false);
   };
-
 
   return (
     <Box>
@@ -87,26 +60,6 @@ function App() {
         <Box w="25%" h="100%" p={4}>
           <form onSubmit={handleSubmitButtonClicked}>
             <Stack spacing={5}>
-
-              <FormControl mt={5}>
-                <FormLabel fontSize="lg" fontWeight="bold">What level of English?</FormLabel>
-                <RadioGroup onChange={setLevel} value={level}>
-                  <Stack direction='row'>
-                    <Radio value='beginner'>Beginner</Radio>
-                    <Radio value='intermediate'>Intermediate</Radio>
-                    <Radio value='advanced'>Advanced</Radio>
-                  </Stack>
-                </RadioGroup>
-              </FormControl>
-
-              <FormControl mt={5}>
-                <FormLabel fontSize="lg" fontWeight="bold">What sort of Exercise?</FormLabel>
-                <Select placeholder="Select option" onChange={e => setExerciseType(e.target.value)} size="lg">
-                  <option value="grammar gap-fill">Grammar Gap-fill</option>
-                  <option value="vocab gap-fill">Vocab Gap-fill</option>
-                  <option value="reading comprehension">Reading Comprehension</option>
-                </Select>
-              </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel fontSize="lg" fontWeight="bold" >What sort of topic?</FormLabel>
@@ -177,6 +130,4 @@ function App() {
 
 export default App;
 
-// TODO the prompts are all pretty inconsistent. Go back to LLM api vs chat api?
-// TODO different exercise types use different input variables (e.g. grammar vs vocab gap-fill). How do I handle this?
 // TODO figure out what to do with the API key when deploying to production
