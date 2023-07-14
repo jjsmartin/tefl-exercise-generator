@@ -4,36 +4,56 @@ import { z } from "zod";
 import {
   PromptTemplate
 } from "langchain/prompts";
-import { 
+import {
   StructuredOutputParser
 } from "langchain/output_parsers";
-import { 
+import {
   formatGapFillQuestions
 } from "../api/helpers";
 
 
 export async function getGrammarGapFill(data) {
 
-  //TODO these questions types are not being generated correctly: adverbials, uncount nouns. Are gap-fill questions the right format for these?
   const grammar_gap_fill_template = `
-  Generate a sentence of around 20 words that includes this grammatical construction: 
+  A "gap-fill exercise" is a common technique used in language teaching, particularly in teaching English as a foreign language (EFL).
+
+  In a gap-fill exercise, students are given sentences or a paragraph where certain words (or phrases) are missing. These missing words are indicated by blanks, or "gaps," hence the name. The students' task is to fill in these gaps with appropriate words or phrases.
+
+  Gap-fill exercises are effective as they engage learners actively, test their comprehension, and provide teachers with an opportunity to assess learning. They are a versatile tool that can be easily integrated into a variety of lesson plans.
+
+  You will create a gap-full exercise which be used to practice specific grammatical structures.
+
+  When creating a gap-fill exercise focused on grammar, it's important to carefully plan the exercise to ensure that it effectively teaches and tests the grammatical point you're targeting. Here are some points to consider:
+
+  Identify the specific grammar point: First, you need to decide what grammar point you want the exercise to focus on. This could be a particular verb tense, preposition, article, modal verb, etc. The exercise should be designed in a way that only this specific grammar point fits the gaps.
+
+  Contextual relevance: It's important to create sentences that are contextually relevant and make sense. It not only makes the exercise more engaging, but it also helps students understand how the grammar point is used in real-world communication.
+
+  Use clear and understandable sentences: The sentences should be at a suitable level for the student. They should be able to understand the sentence as a whole, with the exception of the targeted grammar point.
+
+  Provide a balanced challenge: The exercise shouldn't be too easy, or it won't be an effective learning tool. But it also shouldn't be so difficult that it frustrates the students. You want to challenge them just enough to stretch their abilities without discouraging them.
+
+  Include distractors: Distractors are incorrect options that could logically fill the gap but do not fit the context or grammar rule being applied. They are effective in ensuring that students aren't just guessing the answer and truly understand the grammar.
+
+  Include variations: If you're teaching a grammar point that has different forms or uses, include examples of these variations in your exercise. This can help students understand the grammar point in a more comprehensive way.
+
+  Review and Feedback: After students have completed the exercise, provide explanations that clear up any confusion.
+
+  By paying attention to these points, you can create a gap-fill exercise that effectively teaches the grammar point you're focusing on, giving your students an opportunity to practice and understand the grammar concept in a meaningful context.
+
+  Taking into account this backgroups, generate a sentence of around 20 words that can be used to practice this grammatical construction: 
   "{grammar}".
-  We will call this the "target grammar". This is the most important thing. But the sentence should absolutely not explicitly mention the target grammar.
-  Instead, the sentence should relate to this topic:
+
+  We will call this the "target grammar".
+
+  The sentence should also relate to this topic:
   "{topic}"
-  A "gap fill exercise" is one in which certain words or phrases are removed from a sentence and replaced with blanks. Someone studying English as a foreign language might be asked to fill in the blanks with the correct words or phrases.
-  We will use the sentence you just generated as the template for a gap fill exercise. 
-  Consider what a student of English as a foreign language might get wrong about the target grammar, and replace the relevant part of the sentence with a single blank space.
-  The original sentence and the sentence with blank should be exactly the same except for this blank space.
-  Then generate the correct option to fill the gap. This should be a word or phrase which, if it were used to fill in the blank, would give back the original sentence.
-  This student should have to understand the target grammar in order to choose the correct option.
-  Then generate three incorrect options to fill the gap. These three options should be words which, if they were used to fill in the blank, would give grammatically incorrect versions of the same sentence.
-  Then generate an explanation of why the correct option is correct. You should also go through each incorrect option and explain why it is grammatically incorrect.
-  You should choose the sentence, the part to make blank and the incorrect options in a way that will help a student understand the target grammar as clearly as possible.
+
   You should return {numQuestions} different gap fill exercises in the format described below. Do not use the same correct option more than once.
   {format_instructions}
   `
-  
+
+
   const questionSchema = z.object({
     sentence: z.string().describe("The original sentence, with no blanks."),
     question: z.string().describe("The sentence the student will see, with a blank space"),
@@ -52,7 +72,7 @@ export async function getGrammarGapFill(data) {
 
   const model = new ChatOpenAI({
     model: "GPT-4",
-    streaming: false, 
+    streaming: false,
     temperature: 0.1,
     openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY
   });
@@ -84,7 +104,7 @@ export async function getGrammarGapFill(data) {
 
   const extractedContent = response.content.match(/```json\n([\s\S]*?)\n```/)[1]; //parser.extractContent(response.content);
   console.log(extractedContent);
-  
+
   console.log("parsed:");
   console.log(JSON.parse(extractedContent));
 
