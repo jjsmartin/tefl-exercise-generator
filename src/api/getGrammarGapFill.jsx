@@ -56,7 +56,7 @@ export async function getGrammarGapFill(data) {
     model: "GPT-4",
     streaming: false,
     temperature: 0.1,
-    openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY  // process.env.OPENAI_API_KEY;
+    openAIApiKey:process.env.OPENAI_API_KEY  // production; local: openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY
   });
 
   const prompt_template = new PromptTemplate({
