@@ -1,7 +1,8 @@
+import React from 'react'
 import { useState, useRef, useEffect } from "react";
 import { Heading, Box, Flex, Button, Text, Textarea, FormControl, FormLabel, Input, Select, Stack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Link } from "@chakra-ui/react";
-import grammarOptions from '../data/grammarOptions';
-import { getGrammarGapFill } from "../api/getGrammarGapFill";
+// import grammarOptions from '../data/grammarOptions';
+// import { getGrammarGapFill } from "../api/getGrammarGapFill";
 
 function App() {
 
@@ -28,36 +29,46 @@ function App() {
       grammar: grammar,
       numQuestions: numQuestions,
     };
-
+    
     console.log(formData);
 
-    getGrammarGapFill(formData).then(results => {
+    fetch("http://localhost:8888", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        formData
+      })
+    })
+    .then(results => {
       setResult(results);
       setIsLoading(false);
     })
+    .catch(error => console.error('Error:', error));
+
   };
 
   let handleClearButtonClicked = () => {
-    setPrompt("");
-    setResult("");
-    setIsLoading(false);
+  setPrompt("");
+  setResult("");
+  setIsLoading(false);
   };
 
 
-  const formattedGrammarOptions = grammarOptions.map(group => {
-    const newGroup = {...group}; // Copy the group to avoid mutating the original
-    newGroup.options = group.options.map(option => {
-      const newOption = {...option}; // Copy the option to avoid mutating the original
-      newOption.value = option.value.toLowerCase()
-        .replace(/[^a-z0-9]/g, '-') // replace any character not a letter or digit with -
-        .replace(/-+/g, '-') // replace consecutive - with a single -
-        .replace(/^-|-$/g, ''); // remove - at the start and end of the string
-      return newOption;
-    });
-    return newGroup;
-  });
-
-  console.log(JSON.stringify(formattedGrammarOptions));
+  // const formattedGrammarOptions = grammarOptions.map(group => {
+  //   const newGroup = {...group}; // Copy the group to avoid mutating the original
+  //   newGroup.options = group.options.map(option => {
+  //     const newOption = {...option}; // Copy the option to avoid mutating the original
+  //     newOption.value = option.value.toLowerCase()
+  //       .replace(/[^a-z0-9]/g, '-') // replace any character not a letter or digit with -
+  //       .replace(/-+/g, '-') // replace consecutive - with a single -
+  //       .replace(/^-|-$/g, ''); // remove - at the start and end of the string
+  //     return newOption;
+  //   });
+  //   return newGroup;
+  // });
+  const grammarOptions = ['past continuous'];
 
   return (
     <Box>
@@ -82,7 +93,7 @@ function App() {
           <form onSubmit={handleSubmitButtonClicked}>
             <Stack spacing={5}>
 
-              <FormControl mt={4}>
+              {/* <FormControl mt={4}>
                 <FormLabel fontSize="lg" fontWeight="bold">Grammar:</FormLabel>
                 <Select placeholder="Select grammar" onChange={(e) => setGrammar(e.target.value)}>
                   {grammarOptions.map((group, i) => (
@@ -95,7 +106,7 @@ function App() {
                     </optgroup>
                   ))}
                 </Select>
-              </FormControl>
+              </FormControl> */}
 
               <FormControl mt={4}>
                 <FormLabel fontSize="lg" fontWeight="bold" >Topic:</FormLabel>
@@ -154,6 +165,3 @@ function App() {
 }
 
 export default App;
-
-// TODO look up for expanded examples of the grammar? In files? How much complication does that add?
-
