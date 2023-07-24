@@ -109,8 +109,7 @@ app.get('/', (req, res) => {
 
 app.post('/', async (req, res) => {
     try {
-
-        const { grammar, topic, numQuestions } = req.body;
+        const { grammar, topic, numQuestions } = req.body.formData;
 
         const prompt_template = new PromptTemplate({
             template: grammar_gap_fill_template,
@@ -133,7 +132,12 @@ app.post('/', async (req, res) => {
             new HumanMessage(prompt),
         ]);
 
-        res.status(200).send(response)
+        // I thought lanchain's parser would handle this, but it seems not to
+        const extractedContent = response.content.match(/```json\n([\s\S]*?)\n```/)[1]; //parser.extractContent(response.content);
+
+        // TODO does it make sense to do this here?
+        const formattedResponse = formatGapFillQuestions(extractedContent);
+        res.status(200).send(JSON.stringify(formattedResponse));
 
     } catch (error) {
         console.log(error);

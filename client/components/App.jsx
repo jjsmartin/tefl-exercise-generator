@@ -32,7 +32,7 @@ function App() {
     
     console.log(formData);
 
-    fetch("http://localhost:8888", {
+    let response = fetch("http://localhost:8888", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -41,8 +41,9 @@ function App() {
         formData
       })
     })
-    .then(results => {
-      setResult(results);
+    .then(response => response.json())
+    .then(data => {
+      setResult(data);
       setIsLoading(false);
     })
     .catch(error => console.error('Error:', error));
