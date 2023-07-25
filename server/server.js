@@ -10,6 +10,7 @@ import {
 import {
   StructuredOutputParser
 } from "langchain/output_parsers";
+import fs from 'fs';
 // import {
 //   formatGapFillQuestions
 // } from "./helpers";
@@ -53,6 +54,16 @@ function formatGapFillQuestions(jsonString) {
   }
 
 
+  function readFileContent(filename) {
+    try {
+        const data = fs.readFileSync(filename, 'utf8');
+        return data;
+    } catch (err) {
+        console.error(`Error reading file from disk: ${err}`);
+    }
+}
+
+
 const model = new ChatOpenAI({
     model: "GPT-4",
     streaming: false,
@@ -65,27 +76,24 @@ app.use(cors());
 app.use(express.json());
 
 
-
 const grammar_gap_fill_template = `
-Here is some background about what you will be asked to do:
-A "gap-fill exercise" is a common technique used in language teaching, particularly in teaching English as a foreign language (EFL). In a gap-fill exercise, students are given sentences or a paragraph where certain words (or phrases) are missing. The students' task is to fill in these gaps with appropriate words or phrases.
-You will create a gap-fill exercise which be used to practice specific grammatical structures, which we will call the "target grammar". You will be evaluated on how good your exercise is at teaching this target grammar.
-The exercise should be designed in a way that only the target grammar fits the gaps. The exercise should be engaging, and help students understand how the grammar point is used in real-world communication. There should be exactly one correct answer for each gap.
-Provide a balanced challenge: The exercise shouldn't be too easy, or it won't be an effective learning tool. But it also shouldn't be so difficult that it frustrates the students. You want to challenge them just enough to stretch their abilities without discouraging them.
-You should also include "distractors". Distractors are incorrect options that a student might think would fill the gap but in fact do not fit the grammar rule being applied. They are effective in ensuring that students aren't just guessing the answer and truly understand the target grammar.
-Taking into account this background, generate a sentence of around 20 words that can be used to practice the target grammar.
-Here is a description of the target grammar:
+You are a helpful teacher of English as a foreign language. You are creating a gap-fill exercise for your students to practice a specific grammar point. In a gap-fill exercise, students are given sentences where certain words (or phrases) are missing. The students' task is to fill in these gaps with appropriate words or phrases.
+You will create a gap-fill exercise which be used to practice a particular area of grammar. You will be evaluated on how good your exercise is at teaching this target grammar.
 
+This is the grammar we are trying to teach, and your response will be evaluated based on how well it matches what is said here:
+\`\`\`
 {grammar}
+\`\`\`
 
-The sentence should also relate to this topic:
-
+Create a fun and relevant gap-fill exercise based on this grammar. The questions should relate to this topic:
+\`\`\`
 {topic}
+\`\`\`
 
-You should return {numQuestions} different gap fill exercises in the format described below. Include some variety so the student cannot just guess the answer.
-
+There should be {numQuestions} different questions like this. Return everything in the format described below:
 {format_instructions}
 `
+
 
 const questionSchema = z.object({
     sentence: z.string().describe("The original sentence, with no blanks."),
@@ -117,9 +125,11 @@ app.post('/', async (req, res) => {
             partialVariables: { format_instructions: formatInstructions },
         });
 
+        const grammarPromptPart = readFileContent(`grammar-prompts/${grammar}.txt`);
+
         const prompt = await prompt_template.format({
             topic: topic,
-            grammar: grammar,
+            grammar: grammarPromptPart,
             numQuestions: numQuestions,
             formatInstructions: formatInstructions,
         });

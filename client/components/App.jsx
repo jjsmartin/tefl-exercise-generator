@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useRef, useEffect } from "react";
 import { Heading, Box, Flex, Button, Text, Textarea, FormControl, FormLabel, Input, Select, Stack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Link } from "@chakra-ui/react";
-// import grammarOptions from '../data/grammarOptions';
+import grammarOptions from '../data/grammarOptions';
 // import { getGrammarGapFill } from "../api/getGrammarGapFill";
 
 function App() {
@@ -56,21 +56,6 @@ function App() {
   setIsLoading(false);
   };
 
-
-  // const formattedGrammarOptions = grammarOptions.map(group => {
-  //   const newGroup = {...group}; // Copy the group to avoid mutating the original
-  //   newGroup.options = group.options.map(option => {
-  //     const newOption = {...option}; // Copy the option to avoid mutating the original
-  //     newOption.value = option.value.toLowerCase()
-  //       .replace(/[^a-z0-9]/g, '-') // replace any character not a letter or digit with -
-  //       .replace(/-+/g, '-') // replace consecutive - with a single -
-  //       .replace(/^-|-$/g, ''); // remove - at the start and end of the string
-  //     return newOption;
-  //   });
-  //   return newGroup;
-  // });
-  const grammarOptions = ['past continuous'];
-
   return (
     <Box>
       <Heading
@@ -94,7 +79,7 @@ function App() {
           <form onSubmit={handleSubmitButtonClicked}>
             <Stack spacing={5}>
 
-              {/* <FormControl mt={4}>
+              <FormControl mt={4}>
                 <FormLabel fontSize="lg" fontWeight="bold">Grammar:</FormLabel>
                 <Select placeholder="Select grammar" onChange={(e) => setGrammar(e.target.value)}>
                   {grammarOptions.map((group, i) => (
@@ -107,7 +92,7 @@ function App() {
                     </optgroup>
                   ))}
                 </Select>
-              </FormControl> */}
+              </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel fontSize="lg" fontWeight="bold" >Topic:</FormLabel>
