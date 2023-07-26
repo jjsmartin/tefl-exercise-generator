@@ -67,7 +67,7 @@ function formatGapFillQuestions(jsonString) {
 const model = new ChatOpenAI({
     model: "GPT-4",
     streaming: false,
-    temperature: 0.1,
+    temperature: 0.7,
     openAIApiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -77,10 +77,12 @@ app.use(express.json());
 
 
 const grammar_gap_fill_template = `
-You are a helpful teacher of English as a foreign language. You are creating a gap-fill exercise for your students to practice a specific grammar point. In a gap-fill exercise, students are given sentences where certain words (or phrases) are missing. The students' task is to fill in these gaps with appropriate words or phrases.
-You will create a gap-fill exercise which be used to practice a particular area of grammar. You will be evaluated on how good your exercise is at teaching this target grammar.
+You are a helpful teacher of English as a foreign language. You are creating a gap-fill exercise for your students to practice a specific grammar point. 
+In a gap-fill exercise, students are given sentences where certain words (or phrases) are missing. The students' task is to fill in these gaps with appropriate words or phrases.
+You will create a gap-fill exercise which be used to practice a particular area of grammar. You will be evaluated on how good your exercise is at teaching this target grammar. 
+Only the correct option needs to be grammatically correct English. The incorrect options must be grammatically incorrect.
 
-This is the grammar we are trying to teach, and your response will be evaluated based on how well it matches what is said here:
+This is a description of the grammar we are trying to teach, and your response will be evaluated based on how well it matches what is said here:
 \`\`\`
 {grammar}
 \`\`\`
