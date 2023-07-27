@@ -1,0 +1,9 @@
+Articles: 'a', 'an', 'the', and no article
+
+The student should know that we use:
+'an' if the next work begins with a vowel
+'a' or 'an' when we mention something for the first time. 
+'the' with rivers but not with countries
+and so on. 
+
+Consider that many languages use articles but may have different rules. Consider also that some languages do not use articles at all.
