@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useRef, useEffect } from "react";
 import { Heading, Box, Flex, Button, Text, Textarea, FormControl, FormLabel, Input, Select, Stack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Link } from "@chakra-ui/react";
 import grammarOptions from '../data/grammarOptions';
-// import { getGrammarGapFill } from "../api/getGrammarGapFill";
 
 function App() {
 
@@ -34,7 +33,7 @@ function App() {
     
     console.log(formData);
 
-    let response = fetch("http://localhost:8888", {
+    let response = fetch("https://tefl-exercise-generator.onrender.com", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
