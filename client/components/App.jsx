@@ -6,12 +6,14 @@ import grammarOptions from '../data/grammarOptions';
 
 function App() {
 
+  const defaultNumQuestions = 5;
+
   let [prompt, setPrompt] = useState("");
   let [isLoading, setIsLoading] = useState(false);
   let [result, setResult] = useState("");
   const [grammar, setGrammar] = useState("");
   const [topic, setTopic] = useState("");
-  const [numQuestions, setNumQuestions] = useState(1);
+  const [numQuestions, setNumQuestions] = useState(defaultNumQuestions);
 
   const resultRef = useRef();
   useEffect(() => {
@@ -101,7 +103,7 @@ function App() {
 
               <FormControl mt={4}>
                 <FormLabel fontSize="lg" fontWeight="bold">How many questions (max 10)?</FormLabel>
-                <NumberInput min={1} max={10} defaultValue={1} onChange={(e) => setNumQuestions(e)}>
+                <NumberInput min={1} max={10} defaultValue={defaultNumQuestions} onChange={(valueString, valueNumber) => setNumQuestions(valueNumber)}>
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />

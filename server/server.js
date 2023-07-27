@@ -77,32 +77,25 @@ app.use(express.json());
 
 
 const grammar_gap_fill_template = `
-You are a helpful teacher of English as a foreign language. You are creating a gap-fill exercise for your students to practice a specific grammar point. 
-In a gap-fill exercise, students are given sentences where certain words (or phrases) are missing. The students' task is to fill in these gaps with appropriate words or phrases.
-You will create a gap-fill exercise which be used to practice a particular area of grammar. You will be evaluated on how good your exercise is at teaching this target grammar. 
-Only the correct option needs to be grammatically correct English. The incorrect options must be grammatically incorrect.
+You will be asked to create a gap-fill exercise consisting of {numQuestions} different multiple-choice questions. Choose the number of options based on the context (or use four, if you don't have any better ideas). Do not use the same answer more than once in the same exercise.
 
-This is a description of the grammar we are trying to teach, and your response will be evaluated based on how well it matches what is said here:
-\`\`\`
+The correct option absolutely must be grammatically correct, and you should check that the completed sentence is good English. Similarly, the incorrect options must be grammatically incorrect. It will be very confusing to the student otherwise.
+
+This is the grammar we are interested in, and you should consider what a student learning English might need to practice:
 {grammar}
-\`\`\`
 
-Create a fun and relevant gap-fill exercise based on this grammar. The questions should relate to this topic:
-\`\`\`
+The exercise questions should also relate to this topic, but nothing about this context should be tested in the questions. For example, if the topic is "food", the questions should not be about food. They should be about the grammar.
 {topic}
-\`\`\`
 
-There should be {numQuestions} different questions like this. Return everything in the format described below:
+Return everything in the format described below:
 {format_instructions}
 `
 
-
 const questionSchema = z.object({
-    sentence: z.string().describe("The original sentence, with no blanks."),
     question: z.string().describe("The sentence the student will see, with a blank space"),
     correct: z.string().describe("The correct option."),
-    incorrect: z.array(z.string()).describe("Three incorrect options."),
-    explanation: z.string().describe("An explanation of the correct and the three incorrect options."),
+    incorrect: z.array(z.string()).describe("The incorrect options."),
+    explanation: z.string().describe("An explanation of the correct option."),
 })
 
 const questionArraySchema = z.array(questionSchema).describe("An array of questions, each in the format described above.")
@@ -143,6 +136,7 @@ app.post('/', async (req, res) => {
             ),
             new HumanMessage(prompt),
         ]);
+        console.log(response.content);
 
         // I thought lanchain's parser would handle this, but it seems not to
         const extractedContent = response.content.match(/```json\n([\s\S]*?)\n```/)[1]; //parser.extractContent(response.content);
