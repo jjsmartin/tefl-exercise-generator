@@ -84,7 +84,7 @@ The correct option absolutely must be grammatically correct, and you should chec
 This is the grammar we are interested in, and you should consider what a student learning English might need to practice:
 {grammar}
 
-The exercise questions should also relate to this topic, but nothing about this context should be tested in the questions. For example, if the topic is "food", the questions should not be about food. They should be about the grammar.
+The exercise questions should also be related to this topic:
 {topic}
 
 Return everything in the format described below:
