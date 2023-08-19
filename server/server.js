@@ -77,16 +77,14 @@ app.use(express.json());
 
 
 const grammar_gap_fill_template = `
-You will be asked to create a gap-fill exercise consisting of {numQuestions} different multiple-choice questions. Choose the number of options based on the context (or use four, if you don't have any better ideas). Do not use the same answer more than once in the same exercise.
-
-The correct option absolutely must be grammatically correct, and you should check that the completed sentence is good English. Similarly, the incorrect options must be grammatically incorrect. It will be very confusing to the student otherwise.
-
-This is the grammar we are interested in, and you should consider what a student learning English might need to practice:
+You will be asked to create a gap-fill exercise consisting of {numQuestions} different multiple-choice questions.\
+Choose the number of options based on the context (or use four, if you don't have any better ideas). Do not use the same answer more than once in the same exercise.\
+The correct option absolutely must be grammatically correct, and you should check that the completed sentence is good English.\
+The incorrect options absolutely must be grammatically incorrect. It will be very confusing to the student otherwise.
+This is a description of what the exercise should do:
 {grammar}
-
-The exercise questions should also be related to this topic:
+The exercise questions should also be related to the topic below, delimited by backticks:
 {topic}
-
 Return everything in the format described below:
 {format_instructions}
 `
