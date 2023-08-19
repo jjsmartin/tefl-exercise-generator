@@ -33,9 +33,8 @@ function App() {
     
     console.log(formData);
 
-    // TODO point at relevant URL depending on environment
-    //let response = fetch("https://tefl-exercise-generator.onrender.com", {
-    let response = fetch("http://localhost:8888", {
+    let response = fetch("https://tefl-exercise-generator.onrender.com", {
+    //let response = fetch("http://localhost:8888", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
